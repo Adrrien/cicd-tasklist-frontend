@@ -36,15 +36,11 @@ export function useTasks() {
   }, []);
 
   const toggleComplete = useCallback(async (id: number) => {
-    let currentTask: Task | undefined;
-    setTasks((prev) => {
-      currentTask = prev.find((t) => t.id === id);
-      return prev;
-    });
-    if (!currentTask) return;
-    const updated = await taskApi.updateTask(id, { completed: !currentTask.completed });
+    const task = tasks.find((t) => t.id === id);
+    if (!task) return;
+    const updated = await taskApi.updateTask(id, { completed: !task.completed });
     setTasks((prev) => prev.map((t) => (t.id === id ? updated : t)));
-  }, []);
+  }, [tasks]);
 
   useEffect(() => {
     loadTasks();
