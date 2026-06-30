@@ -97,7 +97,10 @@ describe('useTasks', () => {
         }
 
         expect(caughtError).toBeNull();
-        expect(result.current.tasks[0].completed).toBe(true);
+
+        await waitFor(() => {
+            expect(result.current.tasks[0].completed).toBe(true);
+        });
     });
 
     it('toggleComplete does nothing if task not found', async () => {
