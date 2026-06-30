@@ -73,19 +73,30 @@ describe('useTasks', () => {
 
     it('toggle complete updates task', async () => {
         vi.spyOn(taskApi, 'getTasks').mockResolvedValue([mockTask]);
-        vi.spyOn(taskApi, 'updateTask').mockResolvedValue({
+        vi.spyOn(taskApi, 'updateTask').mockImplementation(async () => ({
             ...mockTask,
             completed: true,
-        });
+        }));
 
         const { result } = renderHook(() => useTasks());
 
         await waitFor(() => !result.current.loading);
 
+        let caughtError: unknown = null;
+
         await act(async () => {
-            await result.current.toggleComplete(1);
+            try {
+                await result.current.toggleComplete(1);
+            } catch (err) {
+                caughtError = err;
+            }
         });
 
+        if (caughtError) {
+            console.error('toggleComplete threw:', caughtError);
+        }
+
+        expect(caughtError).toBeNull();
         expect(result.current.tasks[0].completed).toBe(true);
     });
 
