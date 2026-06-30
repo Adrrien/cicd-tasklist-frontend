@@ -7,7 +7,7 @@ pipeline {
         DOCKER_CREDENTIALS_ID = "adrrien-dockerhub-password"
 
         SONAR_HOST_URL = "https://sonarqube.cicd.kits.ext.educentre.fr"
-        SONAR_CREDENTIALS_ID = "adrrien-sonar-token"
+        SONAR_CREDENTIALS_ID = "adrrien-sonar-token-frontend"
         SONAR_PROJECT_KEY = "adrrien-tasklist-frontend"
 
         BUILD_TAG = "${env.BUILD_NUMBER}"
